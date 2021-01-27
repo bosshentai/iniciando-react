@@ -9,6 +9,11 @@ function App() {
   const [description, setDescription] = useState("");
   //Controlled Forms
   
+  function onSubmit(event:FormEvent){
+    event.preventDefault();
+
+  }
+
   return (
     <div>
       <h1>Todo list</h1>
