@@ -1,45 +1,48 @@
-import React, { useState } from "react";
+import React, { FormEvent, useState } from "react";
+import { Header } from "./components/Header";
+import { TextField } from "./components/TextField";
 
+interface Task {
+  name: string;
+  description: string;
+}
 //JSX
 //camelCase
 // F(x) => HTML
 
 function App() {
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  //Controlled Forms
-  
-  function onSubmit(event:FormEvent){
-    event.preventDefault();
+  const [name, setName] = useState(""); // react Hooks
+  const [description, setDescription] = useState(""); // react Hooks
+  const [tasks, setTasks] = useState<Task[]>([]); // Generic
+  //Controlled Forms 
 
+  function onSubmit(event: FormEvent) {
+    event.preventDefault();
+    setTasks([...tasks, { name, description }]);
   }
 
   return (
     <div>
-      <h1>Todo list</h1>
-      <form>
-        <div>
-          <label htmlFor="name">Nome:</label>
-          <input
-            id="name"
-            type="text"
-            value={name}
-            onChange={(event) => setName(event.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="description">Descrição:</label>
-          <input
-            id="description"
-            type="text"
-            value={description}
-            onChange={(event) => setDescription(event.target.value)}
-          />
-        </div>
+      <Header/>
+      <form onSubmit={onSubmit}>
+        <TextField
+        id="name"
+        label="Nome"
+        onChange={(value) => setName(value)}
+        />
+        <TextField
+        id="description"
+        label="Descrição"
+        onChange={(value) => setDescription(value)}
+        />      
         <button type="submit">Adicionar</button>
       </form>
       <ul>
-        <li></li>
+        {tasks.map((tasks) => (
+          <li>
+            {tasks.name} - {tasks.description}
+          </li>
+        ))}
       </ul>
     </div>
   );
